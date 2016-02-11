@@ -1,0 +1,54 @@
+<script src="../bacon/dist/Bacon.min.js"></script>
+<script>
+  var ASB = ASB || {};
+  ASB.AutomaticSearchBehavior = {
+    properties: {
+      debounce: {
+        type: Number,
+        value: 300
+      },
+      minQueryLength: {
+        type: Number,
+        value: 3
+      },
+      asbConfig: {
+        type: Object
+      },
+      lastResponse: {
+        type: Object,
+        notify: true,
+        readOnly: true
+      }
+    },
+    ready: function () {
+      var input = this.asbConfig.node;
+      var query = Bacon.fromEvent(input, 'keyup')
+        .debounce(this.debounce).map(function () { return input.value;})
+        .filter(function (value) {
+          return value.length >= this.minQueryLength;
+        }.bind(this))
+        .skipDuplicates().toProperty('');
+      var request = query
+        .changes()
+        .map(function (query) {
+          return {url: this.url + '?q=' + query};
+        }.bind(this))
+        .flatMapLatest(this._request.bind(this));
+      query.changes().awaiting(request).onValue(function (x) {
+        if(x) this.fire('waiting')
+      }.bind(this));
+    },
+    _request: function (opts) {
+      this.fire('request');
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', opts.url, true);
+      xhr.send(null);
+      xhr.onload = function (e) {
+        this._setLastResponse(JSON.parse(xhr.response));
+        console.log(this.lastResponse)
+        this.fire('response', xhr);
+      }.bind(this)
+      return Bacon.fromEvent(xhr, 'load');
+    }
+  };
+</script>
