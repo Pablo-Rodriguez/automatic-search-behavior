@@ -45,7 +45,6 @@
       xhr.send(null);
       xhr.onload = function (e) {
         this._setLastResponse(JSON.parse(xhr.response));
-        console.log(this.lastResponse)
         this.fire('response', xhr);
       }.bind(this)
       return Bacon.fromEvent(xhr, 'load');
