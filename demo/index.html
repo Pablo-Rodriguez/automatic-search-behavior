@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="my-input.html">
+  </head>
+  <body>
+    <template is="dom-bind">
+      <my-input url="http://localhost:3000/users" last-response="{{res}}"></my-input>
+      <div>
+        <template is="dom-repeat" items="{{res}}" as="model">
+          <div>
+            <span>name: {{model.name}}</span>
+            <span>last: {{model.last}}</span>
+          </div>
+        </template>
+      </div>
+    </template>
+  </body>
+</html>
