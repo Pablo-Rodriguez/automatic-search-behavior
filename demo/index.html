@@ -7,8 +7,12 @@
     <link rel="import" href="my-input.html">
   </head>
   <body>
-    <template is="dom-bind">
-      <my-input url="http://localhost:3000/users" last-response="{{res}}"></my-input>
+    <template id="app" is="dom-bind">
+      <my-input
+        url="http://localhost:3000/users"
+        last-response="{{res}}"
+        on-waiting="waiting"
+        on-response="handleResponse"></my-input>
       <div>
         <template is="dom-repeat" items="{{res}}" as="model">
           <div>
@@ -17,6 +21,20 @@
           </div>
         </template>
       </div>
+      <div id="loading"></div>
     </template>
+
+    <script>
+      document.addEventListener('dom-change', function () {
+        var app = document.getElementById('app');
+        var loading = document.getElementById('loading');
+        app.waiting = function () {
+          loading.innerHTML = 'loading...';
+        }
+        app.handleResponse = function () {
+          loading.innerHTML = '';
+        }
+      });
+    </script>
   </body>
 </html>
