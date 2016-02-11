@@ -1,0 +1,26 @@
+{
+  "name": "automatic-search-behavior",
+  "homepage": "https://github.com/Pablo-Rodriguez/automatic-search-behavior",
+  "authors": [
+    "Pablo-Rodriguez <pablorp1996@gmail.com>"
+  ],
+  "description": "Search behavior responding to keys",
+  "main": "automatic-search-behavior.html",
+  "moduleType": [],
+  "keywords": [
+    "automatic",
+    "search",
+    "behavior",
+    "polymer",
+    "web",
+    "components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
